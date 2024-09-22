@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, request, render_template_string
+from flask import Flask, jsonify, request, render_template_string,send_from_directory
 import pymysql
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -13,7 +13,7 @@ import nltk
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 
-app = Flask(__name__)
+app = Flask(__name__ , static_folder='frontend/my-app/build')
 CORS(app)
 # @cross_origin(origin='*');
 
@@ -56,26 +56,32 @@ def preprocess_text(text):
  
     return text
 
+@app.route('/<path:path>')
+def static_proxy(path):
+    return send_from_directory(app.static_folder, path)
+
+
 @app.route('/')
 def home():
-    # Get data from the database
-    data = get_data_from_db("SELECT * FROM myData1")  # Replace 'Data' with your actual table name
+    return send_from_directory(app.static_folder, 'index.html')
+    # # Get data from the database
+    # data = get_data_from_db("SELECT * FROM myData1")  # Replace 'Data' with your actual table name
 
-    # Render data as an HTML table
-    html_table = "<table border='1'><tr><th>User ID</th><th>User Name</th><th>Email</th><th>Emp ID</th><th>Designation</th><th>Contact</th><th>Sick Leave</th><th>Earned Leave</th><th>Image</th></tr>"
-    for row in data:
-        html_table += f"<tr><td>{row[0]}</td><td>{row[1]}</td><td>{row[2]}</td><td>{row[3]}</td><td>{row[4]}</td><td>{row[5]}</td><td>{row[6]}</td><td>{row[7]}</td><td>{row[9]}</td></tr>"
-    html_table += "</table>"
+    # # Render data as an HTML table
+    # html_table = "<table border='1'><tr><th>User ID</th><th>User Name</th><th>Email</th><th>Emp ID</th><th>Designation</th><th>Contact</th><th>Sick Leave</th><th>Earned Leave</th><th>Image</th></tr>"
+    # for row in data:
+    #     html_table += f"<tr><td>{row[0]}</td><td>{row[1]}</td><td>{row[2]}</td><td>{row[3]}</td><td>{row[4]}</td><td>{row[5]}</td><td>{row[6]}</td><td>{row[7]}</td><td>{row[9]}</td></tr>"
+    # html_table += "</table>"
 
-    return render_template_string('''
-    <html>
-    <head><title>Employee Data</title></head>
-    <body>
-        <h1>Employee Data</h1>
-        {{ table|safe }}
-    </body>
-    </html>
-    ''', table=html_table)
+    # return render_template_string('''
+    # <html>
+    # <head><title>Employee Data</title></head>
+    # <body>
+    #     <h1>Employee Data</h1>
+    #     {{ table|safe }}
+    # </body>
+    # </html>
+    # ''', table=html_table)
 
 
 # Function to read resume file and extract text
@@ -319,4 +325,6 @@ def download_cv(filename):
     return jsonify({'error': 'File not found'}), 404
 
 if __name__ == '__main__':
-    app.run(port=3001, debug=True)
+    port = int(os.environ.get("PORT", 3001))
+    app.run(host='0.0.0.0', port=port, debug=True)
+
