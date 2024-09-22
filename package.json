@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "nltk": "^0.0.1",
+    "react-hot-toast": "^2.4.1"
+  }
+}

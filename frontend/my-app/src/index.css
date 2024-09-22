@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animation from left to right */
+@keyframes slide-left-right {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+  
+  /* Animation from top to bottom */
+  @keyframes slide-top-bottom {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+  
+  /* Animation from right to left */
+  @keyframes slide-right-left {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    50% {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+  
+  /* Animation from bottom to top */
+  @keyframes slide-bottom-top {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+  
+  /* Common animation duration and timing */
+  .slide-animation {
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+  }
+  
