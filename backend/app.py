@@ -58,14 +58,10 @@ def preprocess_text(text):
 
 
 
-@app.route('/')
-def serve():
-    return send_from_directory('../frontend/build', 'index.html')
-
-
+@app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    if path != "" and os.path.exists("../frontend/my-app/build/" + path):
+    if path != "" and os.path.exists(f"../frontend/my-app/build/{path}"):
         return send_from_directory('../frontend/my-app/build', path)
     else:
         return send_from_directory('../frontend/my-app/build', 'index.html')
