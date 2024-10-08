@@ -56,14 +56,19 @@ def preprocess_text(text):
  
     return text
 
-@app.route('/<path:path>')
-def static_proxy(path):
-    return send_from_directory(app.static_folder, path)
 
 
 @app.route('/')
-def home():
-    return send_from_directory(app.static_folder, 'index.html')
+def serve():
+    return send_from_directory('../frontend/build', 'index.html')
+
+
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists("../frontend/my-app/build/" + path):
+        return send_from_directory('../frontend/my-app/build', path)
+    else:
+        return send_from_directory('../frontend/my-app/build', 'index.html')
     # # Get data from the database
     # data = get_data_from_db("SELECT * FROM myData1")  # Replace 'Data' with your actual table name
 
